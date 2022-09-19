@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/EntityPlantt/AmongDiscord",
   "dependencies": {
-    "discord.js": "^14.3.0"
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.2"
   }
 }
