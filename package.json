@@ -4,7 +4,8 @@
   "description": "The Among Us idea, packed in a Discord bot. Powered by Cyclic",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node .",
+    "launch": "node send_discord_token.js"
   },
   "repository": {
     "type": "git",
