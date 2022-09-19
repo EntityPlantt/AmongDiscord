@@ -14,4 +14,12 @@ http.createServer((req, res) => {
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(readFileSync("html/test.html", "utf8"));
 	}
+	else if (req.url == "/") {
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end(readFileSync("html/index.html", "utf8"));
+	}
+	else {
+		res.writeHead(404, {"Content-Type": "text/html"});
+		res.end(readFileSync("html/404.html", "utf8"));
+	}
 }).listen(process.env.PORT || 5000);
