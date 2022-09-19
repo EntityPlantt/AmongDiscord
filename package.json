@@ -1,0 +1,34 @@
+{
+  "name": "among-discord",
+  "version": "2022.09.19",
+  "description": "The Among Us idea, packed in a Discord bot. Powered by Cyclic",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EntityPlantt/AmongDiscord.git"
+  },
+  "keywords": [
+    "among-us",
+    "discord-js",
+    "discord",
+    "discordjs",
+    "amongus",
+    "js",
+    "javascript",
+    "node",
+    "node-js",
+    "nodejs"
+  ],
+  "author": "EntityPlantt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EntityPlantt/AmongDiscord/issues"
+  },
+  "homepage": "https://github.com/EntityPlantt/AmongDiscord",
+  "dependencies": {
+    "discord.js": "^14.3.0"
+  }
+}
