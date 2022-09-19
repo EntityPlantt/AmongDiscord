@@ -19,6 +19,10 @@ http.createServer((req, res) => {
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(readFileSync("html/index.html", "utf8"));
 	}
+	else if (req.url.substr(0, 8) == "/favicon.ico") {
+		res.writeHead(404, {"Content-Type": "image/png"});
+		res.end(readFileSync("media/logo.png", null));
+	}
 	else {
 		res.writeHead(404, {"Content-Type": "text/html"});
 		res.end(readFileSync("html/404.html", "utf8"));
