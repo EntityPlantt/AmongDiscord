@@ -1,3 +1,4 @@
+console.log("Starting script...");
 const http = require("http"), {Client, GatewayIntentBits} = require("discord.js"), {readFileSync} = require("fs");
 require("dotenv").config();
 const client = new Client({
