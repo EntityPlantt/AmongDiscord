@@ -29,7 +29,6 @@ client.once("ready", () => {
 	client.on("interactionCreate", async interaction => {
 		if (!interaction.isChatInputCommand())
 			return;
-		console.log("Processing command", interaction.commandName);
 		await (require("cmd/index.js").fire(interaction));
 	});
 });

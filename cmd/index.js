@@ -17,7 +17,12 @@ function init(client) {
 }
 async function fire(interaction) {
 	if (interaction.client.commands.get(interaction.commandName)) {
-		await interaction.client.commands.get(interaction.commandName).execute(interaction);
+		console.log("Processing command", interaction.commandName);
+		try {
+			await (interaction.client.commands.get(interaction.commandName).execute(interaction));
+		} catch (err) {
+			console.error(err);
+		}
 	}
 }
 module.exports = {init, fire};
