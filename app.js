@@ -32,4 +32,5 @@ client.once("ready", () => {
 		await require("cmd/index.js").fire(interaction);
 	});
 });
+console.log(process.env.DISCORD_API_TOKEN);
 client.login(process.env.DISCORD_API_TOKEN);
