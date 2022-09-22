@@ -1,8 +1,8 @@
 console.log("Starting script...");
-const http = require("http"), {Client, GatewayIntentBits} = require("discord.js"), {readFileSync} = require("fs");
+const http = require("http"), DiscordJS = require("discord.js"), fs = require("fs"), path = require("path");
 require("dotenv").config();
-const client = new Client({
-	intents: [GatewayIntentBits.Guilds]
+const client = new DiscordJS.Client({
+	intents: [DiscordJS.GatewayIntentBits.Guilds]
 });
 http.createServer((req, res) => {
 	console.log("Request on", req.url, "by", res.socket?.remoteAddress);
@@ -28,9 +28,9 @@ client.once("ready", () => {
 });
 console.log("Logging in with token", process.env.DISCORD_API_TOKEN);
 client.login(process.env.DISCORD_API_TOKEN);
-require("cmd/index.js").init(client);
+require(path.join(__dirname, "cmd/index.js")).init(client);
 client.on("interactionCreate", async interaction => {
 	if (!interaction.isChatInputCommand())
 		return;
-	await (require("cmd/index.js").fire(interaction));
+	await (require(path.join(__dirname, "cmd/index.js")).fire(interaction));
 });
