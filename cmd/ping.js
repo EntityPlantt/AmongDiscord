@@ -15,7 +15,7 @@ module.exports = {
 			"Pong dong chu ha!",
 			"Ping!",
 			"So now what do I need to say?",
-			"**Bot status**\n:green_circle: Online\nඞ Ready for some Among Us"
+			"**Bot status**\n:green_circle: Online\n:shhhhhhh: Ready for some Among Us"
 		];
 		await interaction.reply(replyList[Math.floor(Math.random() * replyList.length)]);
 	}
