@@ -4,8 +4,7 @@
   "description": "The Among Us idea, packed in a Discord bot",
   "main": "app.js",
   "scripts": {
-    "start": "node .",
-    "launch": "start send_discord_token.html"
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,9 @@
     "javascript",
     "node",
     "node-js",
-    "nodejs"
+    "nodejs",
+    "discord-bot",
+    "bot"
   ],
   "author": "EntityPlantt",
   "license": "MIT",
