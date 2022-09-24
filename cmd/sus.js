@@ -26,9 +26,9 @@ module.exports = {
 			"Welcome %1, to the sussy boys!",
 			"This guy is a little bit sus.\nWho is he?\n%1!"
 		];
-		interaction.channel.send(replyList[Math.floor(Math.random() * replyList.length)]
+		await interaction.channel.send(replyList[Math.floor(Math.random() * replyList.length)]
 			.replaceAll("%1", `<@${interaction.options.getUser("user").id}>`)
 			.replaceAll("%2", `<@${interaction.member.id}>`));
-		interaction.reply({content: `Made <@${interaction.options.getUser("user").id}> sussy`, ephemeral: true});
+		await interaction.reply({content: `Made <@${interaction.options.getUser("user").id}> sussy`, ephemeral: true});
 	}
 };
