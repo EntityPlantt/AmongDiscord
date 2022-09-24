@@ -56,5 +56,12 @@ function getLobby(lobby) {
 function lobbyList() {
 	return Object.keys(data);
 }
-module.exports = {loadData, saveData, createLobby, joinLobby, lobbyJoined, leaveLobby, deleteLobby, getLobby, lobbyList};
+function setOption(lobby, option, value) {
+	return data[lobby].options[option] = value;
+}
+module.exports = {
+	loadData, saveData, createLobby, joinLobby,
+	lobbyJoined, leaveLobby, deleteLobby, getLobby,
+	lobbyList, setOption
+};
 loadData();
