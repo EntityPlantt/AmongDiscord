@@ -1,7 +1,32 @@
-const fs = require("fs"), path = require("path");
-var data;
+const fs = require("fs"), path = require("path"), Game = require("./game.js");
+var data, options = {
+	impostors: {
+		name: "Number of impostors",
+		value: 1,
+		min: 1,
+		max: 5
+	},
+	maxPlayers: {
+		name: "Maximum amount of players",
+		value: 10,
+		min: 3,
+		max: 20
+	}
+};
+function defaultOptions() {
+	var obj = {};
+	for (var i of Object.keys(options)) {
+		obj[i] = options[i].value;
+	}
+	return obj;
+}
 function loadData() {
 	data = JSON.parse(fs.readFileSync(path.join(__dirname, "lobbies.json"), "utf8"));
+	for (var i of Object.keys(data)) {
+		if (data[i].started) {
+			Object.setPrototypeOf(data[i].game, Game.prototype);
+		}
+	}
 }
 function saveData() {
 	fs.writeFileSync(path.join(__dirname, "lobbies.json"), JSON.stringify(data), "utf8");
@@ -13,10 +38,8 @@ function createLobby(owner, name) {
 	data[name] = {
 		owner,
 		participants: [owner],
-		options: {
-			impostors: 1,
-			maxPlayers: 10
-		}
+		options: defaultOptions(),
+		started: false
 	};
 	return true;
 }
@@ -29,7 +52,7 @@ function lobbyJoined(user) {
 	return null;
 }
 function joinLobby(user, lobby) {
-	if (lobbyJoined(user) != null || !(lobby in data)) {
+	if (lobbyJoined(user) != null || !(lobby in data) || data[lobby].started) {
 		return false;
 	}
 	data[lobby].participants.push(user);
@@ -44,7 +67,7 @@ function leaveLobby(user) {
 	return true;
 }
 function deleteLobby(user, lobby) {
-	if (!(lobby in data) || data[lobby].owner != user) {
+	if (!(lobby in data) || data[lobby].owner != user || data[lobby].started) {
 		return false;
 	}
 	delete data[lobby];
@@ -57,11 +80,30 @@ function lobbyList() {
 	return Object.keys(data);
 }
 function setOption(lobby, option, value) {
+	if (value < options[option].min || value > options[option].max) {
+		return false;
+	}
 	return data[lobby].options[option] = value;
+	return true;
+}
+function optionData(option) {
+	return options[option];
+}
+function startGame(user, lobby) {
+	if (!(data in lobby) || lobby[data].owner != user || lobby[data].started) {
+		return false;
+	}
+	lobby.started = true;
+	lobby.game = new Game(lobby);
+	return lobby.game;
+}
+function getGame(lobby) {
+	return data[lobby]?.game ?? null;
 }
 module.exports = {
 	loadData, saveData, createLobby, joinLobby,
 	lobbyJoined, leaveLobby, deleteLobby, getLobby,
-	lobbyList, setOption
+	lobbyList, setOption, defaultOptions, optionData,
+	startGame, getGame
 };
 loadData();

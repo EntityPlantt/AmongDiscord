@@ -14,6 +14,15 @@ module.exports = {
 Name: \`${interaction.options.getString("name")}\`
 Participants: ${data.participants.length}
 Owner: <@${data.owner}>
+${
+	data.started
+	? ":red_circle: The game has started in this lobby"
+	: (
+		data.options.maxPlayers > data.participants.length
+		? ":green_circle: The game hasn't started. Join now!"
+		: ":yellow_circle: Wait a bit, this lobby has maximum players."
+	)
+}
 
 **Options**
 \`\`\`json

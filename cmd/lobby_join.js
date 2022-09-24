@@ -13,7 +13,10 @@ module.exports = {
 			await interaction.reply(`<@${interaction.member.id}> joined the lobby \`${interaction.options.getString("name")}\``);
 		}
 		else {
-			await interaction.reply({content: "Couldn't join lobby, you are already in another one or the lobby doesn't exist.", ephemeral: true});
+			await interaction.reply({content: `Couldn't join lobby, here are some resons:
+• You are already in another one
+• The lobby doesn't exist
+• Game has started in that lobby`, ephemeral: true});
 		}
 	}
 };

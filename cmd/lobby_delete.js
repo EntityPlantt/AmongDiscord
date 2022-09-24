@@ -13,7 +13,10 @@ module.exports = {
 			await interaction.reply({content: `<@${interaction.member.id}> deleted the lobby \`${interaction.options.getString("name")}\``});
 		}
 		else {
-			await interaction.reply({content: "Couldn't delete lobby, it doesn't exist or you aren't the lobby owner.", ephemeral: true});
+			await interaction.reply({content: `Couldn't delete lobby, one of these is the reason:
+• It doesn't exist
+• You aren't the lobby owner
+• Game has started in that lobby`, ephemeral: true});
 		}
 	}
 };
