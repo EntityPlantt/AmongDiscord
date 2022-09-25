@@ -1,4 +1,4 @@
-const DiscordJS = require("discord.js");
+const DiscordJS = require("discord.js"), util = require("../util.js");
 module.exports = {
 	data: new DiscordJS.SlashCommandBuilder()
 	.setName("ping")
@@ -15,7 +15,9 @@ module.exports = {
 			"Pong dong chu ha!",
 			"Ping!",
 			"So now what do I need to say?",
-			"**Bot status**\n:green_circle: Online\n:shhhhhhh: Ready for some Among Us"
+			`**Bot status**\n:green_circle: Online\n${
+				util.getEmoji(interaction.guild, "shhhhhhh")
+			} Ready for some Among Discord`
 		];
 		await interaction.reply(replyList[Math.floor(Math.random() * replyList.length)]);
 	}
