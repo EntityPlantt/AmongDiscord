@@ -5,6 +5,9 @@ module.exports = {
 	.setDescription("Leave the lobby you're currently in"),
 	async execute(interaction) {
 		if (lobbies.leaveLobby(interaction.member.id)) {
+			if (lobbies.inGame(interaction.member.id)) {
+				lobbies.inGame(interaction.member.id).removePlayer(interaction.member.id);
+			}
 			lobbies.saveData();
 			await interaction.reply(`<@${interaction.member.id}> left the lobby`);
 		}

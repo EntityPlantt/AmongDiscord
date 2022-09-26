@@ -4,12 +4,12 @@ var data, options = {
 		name: "Number of impostors",
 		value: 1,
 		min: 1,
-		max: 5
+		max: 3
 	},
 	maxPlayers: {
 		name: "Maximum amount of players",
 		value: 10,
-		min: 3,
+		min: 5,
 		max: 20
 	}
 };
@@ -89,21 +89,25 @@ function setOption(lobby, option, value) {
 function optionData(option) {
 	return options[option];
 }
-function startGame(user, lobby) {
-	if (!(data in lobby) || lobby[data].owner != user || lobby[data].started) {
+async function startGame(user, lobby, client) {
+	if (!(lobby in data) || data[lobby].owner != user || data[lobby].started) {
 		return false;
 	}
-	lobby.started = true;
-	lobby.game = new Game(lobby);
-	return lobby.game;
+	data.started = true;
+	data.game = new Game(lobby, data[lobby], client);
+	await data.game.start();
+	return data.game;
 }
 function getGame(lobby) {
 	return data[lobby]?.game ?? null;
+}
+function inGame(user) {
+	return data[lobbyJoined(user)]?.game ?? null;
 }
 module.exports = {
 	loadData, saveData, createLobby, joinLobby,
 	lobbyJoined, leaveLobby, deleteLobby, getLobby,
 	lobbyList, setOption, defaultOptions, optionData,
-	startGame, getGame
+	startGame, getGame, inGame
 };
 loadData();
