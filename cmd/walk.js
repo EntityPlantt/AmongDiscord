@@ -1,4 +1,4 @@
-const DiscordJS = require("discord.js"), lobbies = require("../lobbies.js");
+const DiscordJS = require("discord.js"), lobbies = require("../lobbies.js"), Game = require("../game.js");
 module.exports = {
 	data: new DiscordJS.SlashCommandBuilder()
 		.setName("walk")
@@ -6,15 +6,9 @@ module.exports = {
 		.addIntegerOption(opt => opt
 			.setName("place")
 			.setDescription("The place to go")
-			.addChoices(
-				{name: "Cafeteria", value: 0},
-				{name: "Admin", value: 1},
-				{name: "Reactor", value: 2},
-				{name: "Weapons", value: 3},
-				{name: "Navigation", value: 4},
-				{name: "Shields", value: 5},
-				{name: "O2", value: 6}
-				)
+			.addChoices(...Game.places.map((place, index) => {
+				return {name: place, value: index};
+			}))
 			.setRequired(true)
 			),
 	async execute(interaction) {

@@ -12,7 +12,6 @@ module.exports = {
 			"Well-hidden: ||pong||",
 			"**PONG**",
 			"*cricket noise*",
-			"Pong dong chu ha!",
 			"Ping!",
 			"So now what do I need to say?",
 			`**Bot status**\n:green_circle: Online\n${

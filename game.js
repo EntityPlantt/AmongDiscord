@@ -16,7 +16,12 @@ module.exports = class Game {
 			reason: `Game ${this.#name} has started`
 		});
 		this.#lobby.participants.forEach(player => {
-			this.players[player] = {impostor: false, place: 0, lastWalk: 0};
+			this.players[player] = {
+				impostor: false,
+				place: 0,
+				lastWalk: 0,
+				emergenciesLeft: this.#lobby.options.numOfEmergencies
+			};
 			this.#client.guild.members.cache.get(player).roles.add(this.#role);
 		});
 		this.#lobby.participants.sort(() => .5 - Math.random())
@@ -115,17 +120,17 @@ Ghosts:
 **Have fun!**
 `);
 	}
-	walk(player, place) {
-		if (this.players[player].place == 1) {
-			this.#channels.admin.permissionOverwrites.create(this.#client.guild.cache.get(player), {
-				ViewChannel: false
-			});
-		}
+	async walk(player, place) {
 		if (this.players[player].lastWalk <= util.time() - 2500) {
 			this.players[player].lastWalk = util.time();
+			if (this.players[player].place == 1) {
+				await this.#channels.admin.permissionOverwrites.create(this.#client.guild.cache.get(player), {
+					ViewChannel: false
+				});
+			}
 			this.players[player].place = place;
 			if (this.players[player].place == 1) {
-				this.#channels.admin.permissionOverwrites.create(this.#client.guild.cache.get(player), {
+				await this.#channels.admin.permissionOverwrites.create(this.#client.guild.cache.get(player), {
 					ViewChannel: true,
 					SendMessages: false,
 					UseApplicationCommands: false
@@ -134,6 +139,62 @@ Ghosts:
 			return true;
 		}
 		return false;
+	}
+	async emergency(player) {
+		if (this.players[player].numOfEmergencies && !this.#channels.emergency) {
+			this.players[player].numOfEmergencies--;
+			this.#channels.emergency = await this.#client.guild.channels.create({
+				name: this.#name + "-emergency",
+				type: DiscordJS.ChannelType.GuildText,
+				reason: "Emergency in " + this.#name,
+				permissionOverwrites: [
+				{
+					id: this.#client.guild.roles.everyone.id,
+					deny: [
+					DiscordJS.PermissionsBitField.Flags.ViewChannel
+					]
+				},
+				{
+					id: this.#role.id,
+					allow: [
+					DiscordJS.PermissionsBitField.Flags.ViewChannel,
+					DiscordJS.PermissionsBitField.Flags.SendMessages
+					],
+					deny: [
+					DiscordJS.PermissionsBitField.Flags.UseApplicationCommands
+					]
+				},
+				{
+					id: this.#ghostRole.id,
+					deny: [
+					DiscordJS.PermissionsBitField.Flags.SendMessages
+					]
+				}]
+			});
+			return true;
+		}
+		return false;
+	}
+	async sendAdminReport() {
+		await this.#channels.admin.send({
+			embeds: [new DiscordJS.EmbedBuilder()
+				.setName("Admin report")
+				.setDescription("What's been happening these 10 seconds")
+				.setColor(0x970c00)
+				.setAuthor({
+					name: "Among Discord",
+					iconURL: this.#client.user.displayAvatarURL()
+				})
+				.setTimestamp()
+				.addFields(...Object.keys(this.players).map(player => {
+					return {
+						name: `<@${player}>`,
+						value: module.exports.places[this.players[player].place],
+						inline: true
+					};
+				}))
+			]
+		});
 	}
 	isGameChannel(channelId) {
 		return this.#channels.tasks == channelId
@@ -146,3 +207,4 @@ Ghosts:
 		await this.#ghostRole.delete("Game finished");
 	}
 };
+module.exports.places = "Cafeteria,Admin,Reactor,Weapons,Navigation,Shields,O2".split(",");

@@ -11,6 +11,24 @@ var data, options = {
 		value: 10,
 		min: 5,
 		max: 20
+	},
+	numOfEmergencies: {
+		name: "Number of emergencies by player",
+		value: 5,
+		min: 0,
+		max: 999
+	},
+	numOfTasks: {
+		name: "Numer of tasks to be completed",
+		value: 5,
+		min: 1,
+		max: 25
+	},
+	walkCooldown: {
+		name: "Walk cooldown (in ms)",
+		value: 2500,
+		min: 200,
+		max: 10000
 	}
 };
 function defaultOptions() {
